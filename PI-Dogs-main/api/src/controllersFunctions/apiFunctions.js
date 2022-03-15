@@ -15,6 +15,7 @@ const getDogsByApi = async () => {
                     name: info.name,
                     height:info.height,
                     weight:info.weight,
+                    temperament:info.temperament,
                     life_span:info.life_span,
                     image:info.image.url
                 })

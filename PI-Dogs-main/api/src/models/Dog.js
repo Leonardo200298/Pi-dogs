@@ -16,15 +16,18 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     height:{
-      type: DataTypes.STRING,
+      type: DataTypes.JSON,
       allowNull:false
     },
     weight:{
-      type: DataTypes.STRING,
+      type: DataTypes.JSON,
       allowNull:false
     },
-    yearsOfLife:{
+ /*    temperament:{
+      type:DataTypes.STRING
+    }, */
+    life_span:{
       type: DataTypes.STRING,
     }
-  });
+  }) 
 };
