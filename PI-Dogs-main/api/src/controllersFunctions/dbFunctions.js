@@ -1,11 +1,7 @@
 const { Dog, Temperament } = require('../db')
+const {getAllDogs} = require('../controllersFunctions/apiFunctions')
 const axios = require('axios')
 
-/* async function getTemperament(req, res) {
-    const allTemperaments = await Temperament.findAll()
-    res.send(allTemperaments);
-}
- */
 async function dbTemperaments() {
     const { data } = await axios.get('https://api.thedogapi.com/v1/breeds')
     data.map((n) => {
@@ -16,13 +12,23 @@ async function dbTemperaments() {
         })
     })
 }
-const getAllDogByDb = () => {
-    const dogsByDb = Dog.findAll({
+const getAllDogByDb =async () => {
+  /*   const dogsByDb = Dog.findAll({
         include: {
             model: Temperament,
         }
     })
-    return dogsByDb
+    return dogsByDb */
+    var dogsDB = await Dog.findAll({
+        include: {
+            model: Temperament,
+            attributes: ['name'],
+            through: {
+                attributes: [],
+            },
+        }
+    });
+    return dogsDB;
 }
 const createDog = async (req, res) => {
 
@@ -32,6 +38,7 @@ const createDog = async (req, res) => {
         ? res.status(404).send({ error: 'dog not created' })
         : res.status(200).send({ success: 'dog created' })
 
+      
 
 }
 const helperForCondition =async (id, name, height, weight, life_span, temperament) => {
@@ -54,9 +61,26 @@ const helperForCondition =async (id, name, height, weight, life_span, temperamen
         console.log('Error in createDog')
     }
 }
+//funcion en la cual busco en la api y en la db
+const getDogById =async (req,res)=>{
+    try{
+
+        const {idRaza} = req.params;
+        const allDogs = await getAllDogs();
+        console.log(allDogs)
+        if (!idRaza){
+            res.status(404).send("Couldn't find")
+        }else{
+            const dog = allDogs.find((dogg)=>dogg.id.toString()===idRaza)
+            res.status(200).send(dog);
+        }
+    }catch(error){
+        console.log(error)
+    }
+}
 module.exports = {
     getAllDogByDb,
     createDog,
-  /*   getTemperament, */
-    dbTemperaments
+    dbTemperaments,
+    getDogById
 }

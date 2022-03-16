@@ -1,9 +1,10 @@
 const { Router } = require('express');
 const router = Router();
-const {allDogs} = require('../controllersFunctions/apiFunctions')
-const {createDog} = require('../controllersFunctions/dbFunctions')
+const {getAllDogs} = require('../controllersFunctions/apiFunctions')
+const {createDog,getDogById} = require('../controllersFunctions/dbFunctions')
 
-router.get('/',allDogs);
-router.post('/dog', createDog)
+router.get('/',getAllDogs);//idRaza}
+router.get('/:idRaza',getDogById)
+router.post('/dog', createDog);
 
 module.exports = router;
