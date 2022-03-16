@@ -1,5 +1,5 @@
 const { Dog, Temperament } = require('../db')
-const {getAllDogs} = require('../controllersFunctions/apiFunctions')
+const { getAllDogs } = require('./apiFunctions.js')
 const axios = require('axios')
 
 async function dbTemperaments() {
@@ -12,36 +12,24 @@ async function dbTemperaments() {
         })
     })
 }
-const getAllDogByDb =async () => {
-  /*   const dogsByDb = Dog.findAll({
+const getAllDogByDb = async () => {
+    const dogsByDb = Dog.findAll({
         include: {
             model: Temperament,
         }
     })
-    return dogsByDb */
-    var dogsDB = await Dog.findAll({
-        include: {
-            model: Temperament,
-            attributes: ['name'],
-            through: {
-                attributes: [],
-            },
-        }
-    });
-    return dogsDB;
+    return dogsByDb
+
 }
 const createDog = async (req, res) => {
 
-    const { id, name, height, weight, life_span, temperament } = req.body;
-    const dog = await helperForCondition(id, name, height, weight, life_span, temperament);
+    const { id, name, height, weight, life_span } = req.body;
+    const dog = await helperForCondition(id, name, height, weight, life_span);
     dog === 'error'
         ? res.status(404).send({ error: 'dog not created' })
         : res.status(200).send({ success: 'dog created' })
-
-      
-
 }
-const helperForCondition =async (id, name, height, weight, life_span, temperament) => {
+const helperForCondition = async (id, name, height, weight, life_span) => {
     try {
         if (name) {
             let dog = await Dog.create({
@@ -62,25 +50,27 @@ const helperForCondition =async (id, name, height, weight, life_span, temperamen
     }
 }
 //funcion en la cual busco en la api y en la db
-const getDogById =async (req,res)=>{
-    try{
-
-        const {idRaza} = req.params;
+/* const getDogById = async (req, res) => {
+    try {
+        const { idRaza } = req.params;
+        console.log(idRaza)
         const allDogs = await getAllDogs();
         console.log(allDogs)
-        if (!idRaza){
+        if (!idRaza) {
             res.status(404).send("Couldn't find")
-        }else{
-            const dog = allDogs.find((dogg)=>dogg.id.toString()===idRaza)
+        } else {
+            const dog = allDogs.find((dogg) => dogg.id.toString() === idRaza)
             res.status(200).send(dog);
         }
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
-}
+
+} */
+
 module.exports = {
     getAllDogByDb,
     createDog,
     dbTemperaments,
-    getDogById
+    /* getDogById */
 }

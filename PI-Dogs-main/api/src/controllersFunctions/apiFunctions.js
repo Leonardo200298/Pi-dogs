@@ -13,26 +13,37 @@ const getDogsByApi = async () => {
             breed_group: info.breed_group,
             temperament: info.temperament,
             life_span: info.life_span,
-            weight_min: parseInt(info.weight.metric.slice(0, 2).trim()),
-            weight_max: parseInt(info.weight.metric.slice(4).trim()),
-            height_min: parseInt(info.height.metric.slice(0, 2).trim()),
-            height_max: parseInt(info.height.metric.slice(4).trim()),
+            weight:info.weight,
+            height:info.height
         };
     });
     return apiInfo;
 }
-const getAllDogs = async (req, res) => {
+/* const getAllDogs = async (req, res) => {
     try {
-        const [db,api] = await Promise.all([getAllDogByDb(),getDogsByApi()])
-        
-        const allDogsApiAndDb = [...db,...api]
-        
-        res.send(allDogsApiAndDb)
+        const [db,api] = await Promise.all([getAllDogByDb(),getDogsByApi()])    
+        const allDogsApiAndDb = [...db,...api] 
+        return res.send(allDogsApiAndDb)
+       
+    } catch (error) {
+        console.log(error)
+    }
+  
+} */
+const getAllDogs = async () => {
+    try {
+        const [db,api] = await Promise.all([getAllDogByDb(),getDogsByApi()])    
+        const allDogsApiAndDb = [...db,...api] 
+        return allDogsApiAndDb
+       
     } catch (error) {
         console.log(error)
     }
   
 }
+
 module.exports = {
-    getAllDogs
+    getAllDogs,
+    /* getAllDogs2 */
+    
 }
