@@ -1,20 +1,21 @@
 const { Router } = require('express');
 const router = Router();
-const { getAllDogs } = require('../controllersFunctions/apiFunctions')
+const { getAllDogs,getAllDogsForSearchId} = require('../controllersFunctions/apiFunctions')
 const { createDog } = require('../controllersFunctions/dbFunctions')
 
-router.get('/', async (req, res) => {
+/* router.get('/', async (req, res) => {
     try{
         res.send(await getAllDogs())
     }catch(error){
         console.log(error)
     }
     
-});
+}); */
+router.get('/', getAllDogs)
 router.get('/:idRaza', async (req, res) => {
     try {
         const { idRaza } = req.params;
-        const allDogs = await getAllDogs();
+        const allDogs = await getAllDogsForSearchId();
         if (!idRaza) {
             res.status(404).send("Couldn't find")
         } else {

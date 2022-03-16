@@ -1,7 +1,7 @@
 const axios = require('axios')
 const API = 'https://api.thedogapi.com/v1/breeds?key=';
 const APIKEY = '350b7c31-14a9-4f82-ba04-d95e89453761'
-const {getAllDogByDb} = require('../controllersFunctions/dbFunctions')
+const { getAllDogByDb } = require('../controllersFunctions/dbFunctions')
 
 const getDogsByApi = async () => {
     const dogData = await axios.get(API + APIKEY);
@@ -13,37 +13,40 @@ const getDogsByApi = async () => {
             breed_group: info.breed_group,
             temperament: info.temperament,
             life_span: info.life_span,
-            weight:info.weight,
-            height:info.height
+            weight: info.weight,
+            height: info.height
         };
     });
     return apiInfo;
 }
-/* const getAllDogs = async (req, res) => {
+const getAllDogs = async (req, res) => {
+    const { name } = req.query
     try {
-        const [db,api] = await Promise.all([getAllDogByDb(),getDogsByApi()])    
-        const allDogsApiAndDb = [...db,...api] 
-        return res.send(allDogsApiAndDb)
+        const [db, api] = await Promise.all([getAllDogByDb(), getDogsByApi()])
+        const allDogsApiAndDb = [...db, ...api]
        
+        res.send(allDogsApiAndDb)
+
     } catch (error) {
         console.log(error)
     }
-  
-} */
-const getAllDogs = async () => {
+
+}
+
+const getAllDogsForSearchId = async () => {
     try {
-        const [db,api] = await Promise.all([getAllDogByDb(),getDogsByApi()])    
-        const allDogsApiAndDb = [...db,...api] 
+        const [db, api] = await Promise.all([getAllDogByDb(), getDogsByApi()])
+        const allDogsApiAndDb = [...db, ...api]
         return allDogsApiAndDb
-       
+
     } catch (error) {
         console.log(error)
     }
-  
+
 }
 
 module.exports = {
     getAllDogs,
-    /* getAllDogs2 */
-    
+    getAllDogsForSearchId
+
 }
