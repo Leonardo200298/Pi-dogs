@@ -41,28 +41,35 @@ const getAllDogs = async (req, res) => {
 
 }
 const findNameOfDog = async (allDogsApiAndDb, name)=>{
-    var dogFilter = allDogsApiAndDb.filter((dog)=>{
-        return dog.name===name
-    })
-    
-    if (!dogFilter.length){
-        let dataOfEndPoint = await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${name}`);
-        dataOfEndPoint = dataOfEndPoint.data;
-        return ([
-            {
-                id: dataOfEndPoint.id,
-                name: dataOfEndPoint.name,
-                image: dataOfEndPoint.image.url,
-                breed_group: dataOfEndPoint.breed_group,
-                temperament: dataOfEndPoint.temperament,
-                life_span: dataOfEndPoint.life_span,
-                weight: dataOfEndPoint.weight,
-                height: dataOfEndPoint.height
-            }
-        ])
+    try{
+
+        var dogFilter = allDogsApiAndDb.filter((dog)=>{
+            return dog.name===name
+        })
+        
+        if (!dogFilter.length){
+            let dataOfEndPoint = await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${name}`);
+            dataOfEndPoint = dataOfEndPoint.data;
+            return ([
+                {
+                    id: dataOfEndPoint.id,
+                    name: dataOfEndPoint.name,
+                    image: dataOfEndPoint.image.url,
+                    breed_group: dataOfEndPoint.breed_group,
+                    temperament: dataOfEndPoint.temperament,
+                    life_span: dataOfEndPoint.life_span,
+                    weight: dataOfEndPoint.weight,
+                    height: dataOfEndPoint.height
+                }
+            ])
+        }
+        
+        return dogFilter
+    }catch(error){ 
+        console.log(error)
+        console.log("No existe")
+        return "No existe"
     }
-    
-    return dogFilter
 }
 const getAllDogsForSearchId = async () => {
     try {
@@ -71,6 +78,7 @@ const getAllDogsForSearchId = async () => {
         return allDogsApiAndDb
 
     } catch (error) {
+    
         console.log(error)
     }
 
