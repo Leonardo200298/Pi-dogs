@@ -14,40 +14,38 @@ const getDogsByApi = async () => {
             temperament: info.temperament,
             life_span: info.life_span,
             weight: info.weight,
-            height: info.height 
-           
+            height: info.height
+
         };
     });
     return apiInfo;
 }
 const getAllDogs = async (req, res) => {
-   
-    const {name} = req.query
+
+    const { name } = req.query
     try {
         const [db, api] = await Promise.all([getAllDogByDb(), getDogsByApi()])
         const allDogsApiAndDb = [...db, ...api]
-        console.log('a',req.query)
-       if(name){
-           console.log("entre")
-           var nameDog =await findNameOfDog(allDogsApiAndDb,name)
-           return res.send(nameDog)
-       }
+        if (name) {
+            var nameDog = await findNameOfDog(allDogsApiAndDb, name)
+            return res.send(nameDog)
+        }
         res.send(allDogsApiAndDb)
 
     } catch (error) {
         console.log(error)
     }
-    
+
 
 }
-const findNameOfDog = async (allDogsApiAndDb, name)=>{
-    try{
+const findNameOfDog = async (allDogsApiAndDb, name) => {
+    try {
 
-        var dogFilter = allDogsApiAndDb.filter((dog)=>{
-            return dog.name===name
+        var dogFilter = allDogsApiAndDb.filter((dog) => {
+            return dog.name === name
         })
-        
-        if (!dogFilter.length){
+
+        if (!dogFilter.length) {
             let dataOfEndPoint = await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${name}`);
             dataOfEndPoint = dataOfEndPoint.data;
             return ([
@@ -63,9 +61,9 @@ const findNameOfDog = async (allDogsApiAndDb, name)=>{
                 }
             ])
         }
-        
+
         return dogFilter
-    }catch(error){ 
+    } catch (error) {
         console.log(error)
         console.log("No existe")
         return "No existe"
@@ -78,7 +76,7 @@ const getAllDogsForSearchId = async () => {
         return allDogsApiAndDb
 
     } catch (error) {
-    
+
         console.log(error)
     }
 

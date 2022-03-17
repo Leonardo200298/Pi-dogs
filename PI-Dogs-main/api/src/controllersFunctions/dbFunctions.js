@@ -1,11 +1,24 @@
 const { Dog, Temperament } = require('../db')
-const { getAllDogs } = require('./apiFunctions.js')
 const axios = require('axios')
 
 const getTemperaments =async (req,res)=>{
-    var allTemperaments = await Temperament.findAll()
-    console.log(allTemperaments)
-    return res.json(allTemperaments)
+   /*  var allTemperaments = await Temperament.findAll()
+    return res.json(allTemperaments) */
+    
+    try {
+        let query = await Temperament.findAll({
+            order: [['name', 'asc']]
+        });
+
+        if (query) {
+            res.json(query);
+        } else {
+            res.json('Not found');
+        }
+
+    } catch (error) {
+        res.status(500).json(error);
+    }
 }
 
 async function dbTemperaments() {
@@ -29,14 +42,18 @@ const getAllDogByDb = async () => {
 
 }
 const createDog = async (req, res) => {
+try{
 
-    const { id, name, height, weight, life_span } = req.body;
-    const dog = await helperForCondition(id, name, height, weight, life_span);
+    const { id, name, height, weight, life_span,temperaments } = req.body;
+    const dog = await helperForCondition(id, name, height, weight, life_span,temperaments);
     dog === 'error'
         ? res.status(404).send({ error: 'dog not created' })
         : res.status(200).send({ success: 'dog created' })
+}catch(error){
+    console.log(error)
 }
-const helperForCondition = async (id, name, height, weight, life_span) => {
+}
+const helperForCondition = async (id, name, height, weight, life_span,temperaments) => {
     try {
         if (name) {
             let dog = await Dog.create({
@@ -45,9 +62,10 @@ const helperForCondition = async (id, name, height, weight, life_span) => {
                 weight,
                 height,
                 life_span,
+                
 
             })
-            await dog.addTemperament(temperament)
+            await dog.addTemperament(temperaments)
         } else {
             return 'error'
         }
