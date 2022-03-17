@@ -2,6 +2,11 @@ const { Dog, Temperament } = require('../db')
 const { getAllDogs } = require('./apiFunctions.js')
 const axios = require('axios')
 
+const getTemperaments =async (req,res)=>{
+    var allTemperaments = await Temperament.findAll()
+    res.send(allTemperaments)
+}
+
 async function dbTemperaments() {
     const { data } = await axios.get('https://api.thedogapi.com/v1/breeds')
     data.map((n) => {
@@ -19,6 +24,7 @@ const getAllDogByDb = async () => {
         }
     })
     return dogsByDb
+  
 
 }
 const createDog = async (req, res) => {
@@ -49,28 +55,10 @@ const helperForCondition = async (id, name, height, weight, life_span) => {
         console.log('Error in createDog')
     }
 }
-//funcion en la cual busco en la api y en la db
-/* const getDogById = async (req, res) => {
-    try {
-        const { idRaza } = req.params;
-        console.log(idRaza)
-        const allDogs = await getAllDogs();
-        console.log(allDogs)
-        if (!idRaza) {
-            res.status(404).send("Couldn't find")
-        } else {
-            const dog = allDogs.find((dogg) => dogg.id.toString() === idRaza)
-            res.status(200).send(dog);
-        }
-    } catch (error) {
-        console.log(error)
-    }
-
-} */
 
 module.exports = {
     getAllDogByDb,
     createDog,
     dbTemperaments,
-    /* getDogById */
+    getTemperaments
 }

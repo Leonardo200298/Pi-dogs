@@ -14,25 +14,54 @@ const getDogsByApi = async () => {
             temperament: info.temperament,
             life_span: info.life_span,
             weight: info.weight,
-            height: info.height
+            height: info.height 
+           
         };
     });
     return apiInfo;
 }
 const getAllDogs = async (req, res) => {
-    const { name } = req.query
+   
+ 
     try {
         const [db, api] = await Promise.all([getAllDogByDb(), getDogsByApi()])
         const allDogsApiAndDb = [...db, ...api]
-       
+       if(req.params.name){
+           var nameDog = findNameOfDog(allDogsApiAndDb,req.params.name)
+           res.send(nameDog)
+       }
         res.send(allDogsApiAndDb)
 
     } catch (error) {
         console.log(error)
     }
+    
 
 }
-
+const findNameOfDog = async (allDogsApiAndDb, name)=>{
+    var dogFilter = allDogsApiAndDb.filter((dog)=>{
+        return dog.name===name
+    })
+    
+    if (!dogFilter.length){
+        let dataOfEndPoint = await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${name}`);
+        dataOfEndPoint = dataOfEndPoint.data;
+        return ([
+            {
+                id: info.id,
+                name: info.name,
+                image: info.image.url,
+                breed_group: info.breed_group,
+                temperament: info.temperament,
+                life_span: info.life_span,
+                weight: info.weight,
+                height: info.height
+            }
+        ])
+    }
+    
+    return dogFilter
+}
 const getAllDogsForSearchId = async () => {
     try {
         const [db, api] = await Promise.all([getAllDogByDb(), getDogsByApi()])
