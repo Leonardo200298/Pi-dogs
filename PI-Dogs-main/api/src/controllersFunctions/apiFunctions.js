@@ -22,13 +22,15 @@ const getDogsByApi = async () => {
 }
 const getAllDogs = async (req, res) => {
    
- 
+    const {name} = req.query
     try {
         const [db, api] = await Promise.all([getAllDogByDb(), getDogsByApi()])
         const allDogsApiAndDb = [...db, ...api]
-       if(req.params.name){
-           var nameDog = findNameOfDog(allDogsApiAndDb,req.params.name)
-           res.send(nameDog)
+        console.log('a',req.query)
+       if(name){
+           console.log("entre")
+           var nameDog =await findNameOfDog(allDogsApiAndDb,name)
+           return res.send(nameDog)
        }
         res.send(allDogsApiAndDb)
 
@@ -48,14 +50,14 @@ const findNameOfDog = async (allDogsApiAndDb, name)=>{
         dataOfEndPoint = dataOfEndPoint.data;
         return ([
             {
-                id: info.id,
-                name: info.name,
-                image: info.image.url,
-                breed_group: info.breed_group,
-                temperament: info.temperament,
-                life_span: info.life_span,
-                weight: info.weight,
-                height: info.height
+                id: dataOfEndPoint.id,
+                name: dataOfEndPoint.name,
+                image: dataOfEndPoint.image.url,
+                breed_group: dataOfEndPoint.breed_group,
+                temperament: dataOfEndPoint.temperament,
+                life_span: dataOfEndPoint.life_span,
+                weight: dataOfEndPoint.weight,
+                height: dataOfEndPoint.height
             }
         ])
     }

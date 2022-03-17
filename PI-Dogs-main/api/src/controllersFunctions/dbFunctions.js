@@ -4,7 +4,8 @@ const axios = require('axios')
 
 const getTemperaments =async (req,res)=>{
     var allTemperaments = await Temperament.findAll()
-    res.send(allTemperaments)
+    console.log(allTemperaments)
+    return res.json(allTemperaments)
 }
 
 async function dbTemperaments() {
