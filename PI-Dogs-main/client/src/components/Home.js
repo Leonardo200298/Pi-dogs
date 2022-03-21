@@ -1,9 +1,7 @@
-import {useSelector} from 'react-redux'
-
-export default function(){
+export default function Home(){
     return (
         <div>
-            <h1>Hi there!</h1>
+            <h1>Hi There</h1>
         </div>
     )
 }

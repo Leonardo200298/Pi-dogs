@@ -1,12 +1,17 @@
-import {Routes, Route} from 'react-router'
-import Home from './Home'
+import {Route} from 'react-router-dom'
+import Home from '../components/Home.js'
 
 export default function RoutesRoute(){
     return (
         <div>
-            <Routes>
-                <Route path='/dogs' element={<Home/>} />
-            </Routes>
+            <Route exact path='/dogs'>
+               <Home/>
+
+               
+            </Route>
+            {/* <Route>
+                compoen
+            </Route> */}
         </div>
     )
 }
