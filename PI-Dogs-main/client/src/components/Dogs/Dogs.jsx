@@ -1,8 +1,13 @@
-export default function Dogs(name){
+export default function Dogs(name,image) {
+    console.log(name)
     return (
         <div>
-            <h1>Hola</h1>
-            {name}
+
+
+            name:{name.name}
+            <img src={name.image} alt={name.name} />
+
+
         </div>
     )
 }
