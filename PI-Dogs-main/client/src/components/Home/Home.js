@@ -10,10 +10,9 @@ export default function Home() {
         dispatch(getAllDogs())
         //arreglo de dependencias
     }, [dispatch])
-    //console.log(dogs)
     return (
         <div>
-           ( {dogs.map((info) => {
+            {dogs.length?dogs.map((info) => {
                console.log(info.image)
                 return ( 
                     <Dogs
@@ -22,7 +21,8 @@ export default function Home() {
                      image={info.image}
                      />
                 )
-            })})
+            }):<p>Loanding...</p>
+            }
         </div>
     ) 
    

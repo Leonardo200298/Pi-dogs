@@ -1,11 +1,12 @@
 import {Routes,Route} from 'react-router'
 import Home from '../Home/Home'
+import LandingPage from '../landingPage/landingPage'
 
 export default function RoutesRoute() {
     return (
         <div>
             <Routes>
-
+                <Route path='/' element={<LandingPage/>} />
                 <Route exact path='/dogs' element={<Home/>}/>
                  
             </Routes>

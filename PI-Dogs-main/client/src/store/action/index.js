@@ -7,7 +7,7 @@ export function getAllDogs() {
     return async function (dispatch) {
         try {
             const { data } = await axios.get(BACK)
-            console.log(data)
+
             dispatch({ type: GET_DOGS, payload: data })
 
         }

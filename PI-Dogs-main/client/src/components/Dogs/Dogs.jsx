@@ -1,4 +1,4 @@
-export default function Dogs(name,image) {
+export default function Dogs(name) {
     console.log(name)
     return (
         <div>
