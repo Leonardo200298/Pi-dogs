@@ -4,6 +4,7 @@ import { getAllDogs } from '../../store/action/index'
 import Dogs from '../Dogs/Dogs'
 import Paged from '../Paged/Paged'
 import SearchBar from '../SearchBar/SearchBar'
+import Loading from '../Loading/Loading'
 
 export default function Home() {
     const dogs = useSelector((state) => state.allDogs)
@@ -65,7 +66,7 @@ export default function Home() {
                                 </div>
 
                             )
-                        }) : <p>Loading...</p>
+                        }) : <Loading/>
                 }
             </div>
         </div>
