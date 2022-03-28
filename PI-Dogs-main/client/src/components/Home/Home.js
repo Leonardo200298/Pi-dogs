@@ -8,7 +8,7 @@ import Loading from '../Loading/Loading'
 
 export default function Home() {
     const dogs = useSelector((state) => state.allDogs)
-    const dog = useSelector((state)=> state.dogName)
+    const dog = useSelector((state) => state.dogName)
     let dispatch = useDispatch()
     const [currentPage, setCurrentPage] = useState(1);
     const [dogPerPage] = useState(20);
@@ -36,11 +36,7 @@ export default function Home() {
             />
 
             <div>
-
-
-                {
-                    //muestra un solo dog
-
+                { //muestra un solo dog
                     dog.length ? dog.map((info) => {
                         return (
                             <div>
@@ -61,12 +57,18 @@ export default function Home() {
                                         name={info.name}
                                         Key={info.id}
                                         image={info.image}
+                                        life_span={info.life_span}
+                                     /*    weight={info.weight.map((data) => { return { imperial: data.imperial, metric: data.metric } })} */
+                                        weightMax={info.weight.imperial}
+                                        weightMin={info.weight.metric}
+                                        heightMax={info.height.imperial}
+                                        heightMin={info.height.metric}
                                     />
 
                                 </div>
 
                             )
-                        }) : <Loading/>
+                        }) : <Loading />
                 }
             </div>
         </div>
